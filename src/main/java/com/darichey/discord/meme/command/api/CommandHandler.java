@@ -10,14 +10,13 @@ import java.util.Optional;
 public abstract class CommandHandler<C extends Command> {
 
     protected final Map<String, C> commands;
-    protected final String prefix;
 
-    public CommandHandler(Map<String, C> commands, String prefix) {
+    public CommandHandler(Map<String, C> commands) {
         this.commands = commands;
-        this.prefix = prefix;
     }
 
     public abstract Mono<Void> handle(MessageCreateEvent messageCreateEvent);
+    public abstract String getPrefix(MessageCreateEvent messageCreateEvent);
 
     public Optional<C> getCommand(String name) {
         return Optional.ofNullable(commands.get(name));

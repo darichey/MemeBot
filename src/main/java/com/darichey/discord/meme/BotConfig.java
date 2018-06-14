@@ -1,7 +1,6 @@
 package com.darichey.discord.meme;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import discord4j.core.object.util.Snowflake;
 
 import java.io.IOException;
@@ -14,8 +13,7 @@ import java.util.stream.Stream;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public final class BotConfig {
 
-    private static final ObjectMapper mapper = new ObjectMapper()
-            .registerModule(new SimpleModule().addDeserializer(Snowflake.class, new SnowflakeDeserializer()));
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     private String discordToken;
     private String redditClientId;
@@ -23,7 +21,7 @@ public final class BotConfig {
     private String redditUUID;
     private String redditUserAgent;
     private Set<String> subreddits;
-    private Set<Snowflake> allowedGuilds;
+    private Set<Long> allowedGuilds;
     private String prefix;
     private int resetTime;
 
@@ -61,7 +59,7 @@ public final class BotConfig {
         return subreddits;
     }
 
-    public Set<Snowflake> getAllowedGuilds() {
+    public Set<Long> getAllowedGuilds() {
         return allowedGuilds;
     }
 

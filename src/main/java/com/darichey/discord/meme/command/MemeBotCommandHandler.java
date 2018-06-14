@@ -11,10 +11,12 @@ import java.util.Set;
 
 public class MemeBotCommandHandler extends CommandHandler<MemeBotCommand> {
 
-    private final Set<Snowflake> allowedGuilds;
+    private final String prefix;
+    private final Set<Long> allowedGuilds;
 
-    public MemeBotCommandHandler(Map<String, MemeBotCommand> commands, String prefix, Set<Snowflake> allowedGuilds) {
-        super(commands, prefix);
+    public MemeBotCommandHandler(Map<String, MemeBotCommand> commands, String prefix, Set<Long> allowedGuilds) {
+        super(commands);
+        this.prefix = prefix;
         this.allowedGuilds = allowedGuilds;
     }
 
@@ -31,8 +33,13 @@ public class MemeBotCommandHandler extends CommandHandler<MemeBotCommand> {
                 });
     }
 
+    @Override
+    public String getPrefix(MessageCreateEvent messageCreateEvent) {
+        return prefix;
+    }
+
     private boolean shouldHandle(MessageCreateEvent event) {
-        return event.getGuildId().map(allowedGuilds::contains).orElse(false)
+        return event.getGuildId().map(Snowflake::asLong).map(allowedGuilds::contains).orElse(false)
                 && event.getMessage().getContent().map(it -> it.startsWith(prefix)).orElse(false);
     }
 

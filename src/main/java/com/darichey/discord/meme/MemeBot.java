@@ -36,7 +36,7 @@ public class MemeBot {
                                                   config.getRedditUUID(), config.getSubreddits(),
                                                   config.getRedditUserAgent(), config.getResetTime());
 
-        Map<String, MemeBotCommand> commands = new HashMap<>(2);
+        Map<String, MemeBotCommand> commands = new HashMap<>(3);
         commands.put("meme", new MemeCommand(memeFetcher));
         commands.put("reset", new ResetCommand(memeFetcher));
         commands.put("help", new HelpCommand(commands));
