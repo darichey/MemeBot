@@ -1,9 +1,9 @@
 package com.darichey.discord.meme;
 
 import com.darichey.discord.meme.command.*;
+import discord4j.commands.CommandBootstrapper;
 import discord4j.core.ClientBuilder;
 import discord4j.core.DiscordClient;
-import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.store.jdk.JdkStoreService;
 import reactor.core.publisher.Mono;
 
@@ -41,13 +41,9 @@ public class MemeBot {
         commands.put("reset", new ResetCommand(memeFetcher));
         commands.put("help", new HelpCommand(commands));
 
-        MemeBotCommandHandler commandHandler = new MemeBotCommandHandler(commands, config.getPrefix(),
-                                                                         config.getAllowedGuilds());
+	    CommandBootstrapper commandBootstrapper = new CommandBootstrapper(discord)
+			    .addCommandProvider(new MemeBotCommandProvider(commands, config.getPrefix(), config.getAllowedGuilds()));
 
-        Mono<Void> handleCommands = discord.getEventDispatcher().on(MessageCreateEvent.class)
-                .flatMap(commandHandler::handle)
-                .then();
-
-        return discord.login().and(handleCommands);
+        return discord.login();
     }
 }

@@ -1,6 +1,7 @@
 package com.darichey.discord.meme.command;
 
 import com.darichey.discord.meme.MemeBot;
+import discord4j.commands.CommandErrorHandler;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.spec.EmbedCreateSpec;
 import reactor.core.publisher.Mono;
@@ -26,12 +27,12 @@ public class HelpCommand implements MemeBotCommand {
         this.helpEmbed = helpEmbed;
     }
 
-    @Override
-    public Mono<Void> execute(MessageCreateEvent messageCreateEvent) {
-        return messageCreateEvent.getMessage().getChannel()
-                .flatMap(channel -> channel.createMessage(spec -> spec.setEmbed(helpEmbed)))
-                .then();
-    }
+	@Override
+	public void execute(MessageCreateEvent messageCreateEvent, CommandErrorHandler commandErrorHandler) {
+    	messageCreateEvent.getMessage().getChannel()
+			    .flatMap(channel -> channel.createMessage(spec -> spec.setEmbed(helpEmbed)))
+			    .subscribe();
+	}
 
     @Override
     public String getDescription() {

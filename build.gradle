@@ -10,6 +10,10 @@ mainClassName = 'com.darichey.discord.meme.MemeBot'
 repositories {
     jcenter()
     maven { url  = "https://jitpack.io" }
+
+    flatDir {
+        dirs '../Commands-Prototype/build/libs'
+    }
 }
 
 dependencies {
@@ -22,6 +26,8 @@ dependencies {
 
     // Logback
     compile "ch.qos.logback:logback-classic:1.3.0-alpha4"
+
+    compile name: "Commands-1.0-SNAPSHOT"
 }
 
 distZip {
