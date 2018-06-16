@@ -1,7 +1,6 @@
 package com.darichey.discord.meme;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import discord4j.core.object.util.Snowflake;
 
 import java.io.IOException;
 import java.nio.file.Files;

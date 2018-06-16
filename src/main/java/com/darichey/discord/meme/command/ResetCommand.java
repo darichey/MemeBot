@@ -14,13 +14,13 @@ public class ResetCommand implements MemeBotCommand {
     }
 
     @Override
-    public void execute(MessageCreateEvent messageCreateEvent, CommandErrorHandler commandErrorHandler) {
-    	messageCreateEvent.getMessage().getChannel()
+    public Mono<Void> execute(MessageCreateEvent messageCreateEvent, CommandErrorHandler commandErrorHandler) {
+    	return messageCreateEvent.getMessage().getChannel()
                 .flatMap(channel -> {
                     memeFetcher.reset();
                     return channel.createMessage(spec -> spec.setContent("\uD83D\uDC4C")); // 👌
                 })
-			    .subscribe();
+			    .then();
     }
 
     @Override

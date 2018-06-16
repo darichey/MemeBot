@@ -28,10 +28,10 @@ public class HelpCommand implements MemeBotCommand {
     }
 
 	@Override
-	public void execute(MessageCreateEvent messageCreateEvent, CommandErrorHandler commandErrorHandler) {
-    	messageCreateEvent.getMessage().getChannel()
+	public Mono<Void> execute(MessageCreateEvent messageCreateEvent, CommandErrorHandler commandErrorHandler) {
+    	return messageCreateEvent.getMessage().getChannel()
 			    .flatMap(channel -> channel.createMessage(spec -> spec.setEmbed(helpEmbed)))
-			    .subscribe();
+                .then();
 	}
 
     @Override

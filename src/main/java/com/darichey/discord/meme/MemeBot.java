@@ -44,6 +44,8 @@ public class MemeBot {
 	    CommandBootstrapper commandBootstrapper = new CommandBootstrapper(discord)
 			    .addCommandProvider(new MemeBotCommandProvider(commands, config.getPrefix(), config.getAllowedGuilds()));
 
-        return discord.login();
+	    Mono<Void> handleCommands = commandBootstrapper.attach().then();
+
+        return discord.login().and(handleCommands);
     }
 }

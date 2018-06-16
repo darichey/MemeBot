@@ -14,14 +14,14 @@ public class MemeCommand implements MemeBotCommand {
     }
 
     @Override
-    public void execute(MessageCreateEvent messageCreateEvent, CommandErrorHandler commandErrorHandler) {
-    	messageCreateEvent.getMessage().getChannel()
+    public Mono<Void> execute(MessageCreateEvent messageCreateEvent, CommandErrorHandler commandErrorHandler) {
+    	return messageCreateEvent.getMessage().getChannel()
                 .zipWhen(channel -> memeFetcher.nextMeme())
                 .flatMap(t -> {
                     String content = "`" + t.getT2().getTitle() + "`: " + t.getT2().getUrl();
                     return t.getT1().createMessage(spec -> spec.setContent(content));
                 })
-                .subscribe();
+                .then();
     }
 
     @Override
