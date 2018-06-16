@@ -1,7 +1,6 @@
 package com.darichey.discord.meme.command;
 
 import com.darichey.discord.meme.MemeFetcher;
-import discord4j.commands.CommandErrorHandler;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import reactor.core.publisher.Mono;
 
@@ -14,8 +13,8 @@ public class MemeCommand implements MemeBotCommand {
     }
 
     @Override
-    public Mono<Void> execute(MessageCreateEvent messageCreateEvent, CommandErrorHandler commandErrorHandler) {
-    	return messageCreateEvent.getMessage().getChannel()
+    public Mono<Void> execute(MessageCreateEvent messageCreateEvent) {
+        return messageCreateEvent.getMessage().getChannel()
                 .zipWhen(channel -> memeFetcher.nextMeme())
                 .flatMap(t -> {
                     String content = "`" + t.getT2().getTitle() + "`: " + t.getT2().getUrl();

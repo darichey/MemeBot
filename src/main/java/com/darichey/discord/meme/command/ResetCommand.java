@@ -1,7 +1,6 @@
 package com.darichey.discord.meme.command;
 
 import com.darichey.discord.meme.MemeFetcher;
-import discord4j.commands.CommandErrorHandler;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import reactor.core.publisher.Mono;
 
@@ -14,13 +13,13 @@ public class ResetCommand implements MemeBotCommand {
     }
 
     @Override
-    public Mono<Void> execute(MessageCreateEvent messageCreateEvent, CommandErrorHandler commandErrorHandler) {
-    	return messageCreateEvent.getMessage().getChannel()
+    public Mono<Void> execute(MessageCreateEvent messageCreateEvent) {
+        return messageCreateEvent.getMessage().getChannel()
                 .flatMap(channel -> {
                     memeFetcher.reset();
                     return channel.createMessage(spec -> spec.setContent("\uD83D\uDC4C")); // 👌
                 })
-			    .then();
+                .then();
     }
 
     @Override

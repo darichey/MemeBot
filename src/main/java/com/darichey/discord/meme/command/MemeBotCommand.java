@@ -4,5 +4,5 @@ import discord4j.commands.BaseCommand;
 
 public interface MemeBotCommand extends BaseCommand {
 
-	String getDescription();
+    String getDescription();
 }

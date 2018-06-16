@@ -41,10 +41,10 @@ public class MemeBot {
         commands.put("reset", new ResetCommand(memeFetcher));
         commands.put("help", new HelpCommand(commands));
 
-	    CommandBootstrapper commandBootstrapper = new CommandBootstrapper(discord)
-			    .addCommandProvider(new MemeBotCommandProvider(commands, config.getPrefix(), config.getAllowedGuilds()));
+        CommandBootstrapper commandBootstrapper = new CommandBootstrapper(discord)
+                .addCommandProvider(new MemeBotCommandProvider(commands, config.getPrefix(), config.getAllowedGuilds()));
 
-	    Mono<Void> handleCommands = commandBootstrapper.attach().then();
+        Mono<Void> handleCommands = commandBootstrapper.attach().then();
 
         return discord.login().and(handleCommands);
     }
